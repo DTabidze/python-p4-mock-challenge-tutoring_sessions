@@ -6,9 +6,24 @@ building a website for students to book tutoring sessions with tutors.
 In this repo:
 
 - There is a Flask application with some features built out.
+- There is a fully built React frontend application.
+
+Depending on your preference, you can either check your API by:
+
+- Using Postman to make requests
+- Running the React application in the browser and interacting with the API via
+  the frontend
 
 ---
 
+## Setup
+
+To download the dependencies for the frontend and backend, run:
+
+```console
+pipenv install
+pipenv shell
+npm install --prefix client
 ```
 
 You can run your Flask API on [`localhost:5555`](http://localhost:5555) by
@@ -17,7 +32,20 @@ running:
 ```console
 python server/app.py
 ```
+
+You can run your React app on [`localhost:4000`](http://localhost:4000) by
+running:
+
+```sh
+npm start --prefix client
 ```
+
+You are not being assessed on React, and you don't have to update any of the
+React code; the frontend code is available just so that you can test out the
+behavior of your API in a realistic setting.
+
+Your job is to build out the Flask API to add the functionality described in the
+deliverables below.
 
 ---
 
@@ -311,4 +339,16 @@ data, along with the appropriate HTTP status code:
 
 ---
 
+### (Optional FYI) React `useCallback` hook
+
+The `StudentDetail` component in the React app uses the `useCallback` hook to
+memoize the function that fetches a student by id. The student detail is
+fetched when the component initially renders, and is fetched again after
+updating the student detail. `useCallback` caches the function to avoid
+recreating it .
+
+### Resources
+
+- [useCallback API](https://react.dev/reference/react/useCallback)
+- [Should you add useCallback everywhere?](https://react.dev/reference/react/useCallback#should-you-add-usecallback-everywhere)
 # python-p4-mock-challenge-tutoring_sessions

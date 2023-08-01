@@ -1,0 +1,34 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald&display=swap');
+
+html,body{
+  padding:0;
+  margin:0;
+  height:100%;
+}
+
+body {
+  background-color: antiquewhite;
+  font-family: 'Oswald', sans-serif;
+}
+
+
+nav ul{
+  display:flex;
+  flex-wrap: wrap;
+}
+
+nav{
+  border:solid 1px black;
+  background-color: white;
+  border-radius: 5px;
+}
+
+nav ul li{
+  margin:1rem;
+  list-style: none;
+}
+
+header,.students-div,.add-session-form{
+  margin:0;
+  padding:1rem;
+}
