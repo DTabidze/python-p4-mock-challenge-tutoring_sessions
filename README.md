@@ -22,8 +22,6 @@ Depending on your preference, you can either check your API by:
 You can import `mock-challenge-cosmic-challenge.postman_collection.json` into
 Postman by pressing the `Import` button.
 
-![import postman](https://curriculum-content.s3.amazonaws.com/6130/phase4-mock-challenge/domain.png)
-
 Select `Upload Files`, navigate to this repo folder, and select
 `mock-challenge-cosmic-challenge.postman_collection.json` as the file to import.
 
