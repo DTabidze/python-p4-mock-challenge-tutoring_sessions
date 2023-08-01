@@ -3,26 +3,24 @@ from random import randint, choice as rc
 from faker import Faker
 
 from app import app
-from models import db, Planet, Scientist, Mission
+from models import db, Student,Tutor,Session
 
 fake = Faker()
+specialties=["math","english","science","social studies"]
 
-
-def create_planets():
-    planets = []
+def create_students():
+    students = []
     for _ in range(20):
-        p = Planet(
+        s = Student(
             name=fake.first_name(),
-            distance_from_earth=str(randint(100000, 10000000000)),
-            nearest_star=fake.first_name(),
         )
-        planets.append(p)
+        students.append(s)
 
-    return planets
+    return students
 
 
-def create_scientists():
-    scientists = []
+def create_tutors():
+    tutors = []
     names = []
     for _ in range(5):
         name = fake.name()
@@ -30,47 +28,47 @@ def create_scientists():
             name = fake.name()
         names.append(name)
 
-        s = Scientist(
+        t = Tutor(
             name=name,
-            field_of_study=fake.sentence(),
+            specialty=rc(specialties),
         )
-        scientists.append(s)
+        tutors.append(t)
 
-    return scientists
+    return  tutors
 
 
-def create_missions(planets, scientists):
-    missions = []
+def create_tutoring_sessions(students, tutors):
+    sessions = []
     for _ in range(20):
-        m = Mission(
-            name=fake.sentence(nb_words=3),
-            planet_id=rc(planets).id,
-            scientist_id=rc(scientists).id
+        s = Session(
+            name=rc(specialties),
+            student_id=rc(students).id,
+            tutor_id=rc(tutors).id
         )
-        missions.append(m)
-    return missions
+        sessions.append(s)
+    return sessions
 
 
 if __name__ == '__main__':
 
     with app.app_context():
         print("Clearing db...")
-        Planet.query.delete()
-        Scientist.query.delete()
-        Mission.query.delete()
+        Session.query.delete()
+        Student.query.delete()
+        Tutor.query.delete()
 
-        print("Seeding planets...")
-        planets = create_planets()
-        db.session.add_all(planets)
+        print("Seeding students...")
+        students = create_students()
+        db.session.add_all(students)
         db.session.commit()
 
-        print("Seeding scientists...")
-        scientists = create_scientists()
-        db.session.add_all(scientists)
+        print("Seeding tutors...")
+        tutors = create_tutors()
+        db.session.add_all(tutors)
         db.session.commit()
 
-        print("Seeding missions...")
-        missions = create_missions(planets, scientists)
+        print("Seeding sessions...")
+        missions = create_tutoring_sessions(students, tutors)
         db.session.add_all(missions)
         db.session.commit()
 

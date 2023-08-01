@@ -6,35 +6,9 @@ building a website for students to book tutoring sessions with tutors.
 In this repo:
 
 - There is a Flask application with some features built out.
-- There is a fully built React frontend application.
-- There are tests included which you can run using `pytest -x`.
-- There is a file `mock-challenge-cosmic-challenge.postman_collection.json` that
-  contains a Postman collection of requests for testing each route you will
-  implement.
-
-Depending on your preference, you can either check your API by:
-
-- Using Postman to make requests
-- Running `pytest -x` and seeing if your code passes the tests
-- Running the React application in the browser and interacting with the API via
-  the frontend
-
-You can import `mock-challenge-cosmic-challenge.postman_collection.json` into
-Postman by pressing the `Import` button.
-
-Select `Upload Files`, navigate to this repo folder, and select
-`mock-challenge-cosmic-challenge.postman_collection.json` as the file to import.
 
 ---
 
-## Setup
-
-To download the dependencies for the frontend and backend, run:
-
-```console
-pipenv install
-pipenv shell
-npm install --prefix client
 ```
 
 You can run your Flask API on [`localhost:5555`](http://localhost:5555) by
@@ -43,20 +17,7 @@ running:
 ```console
 python server/app.py
 ```
-
-You can run your React app on [`localhost:4000`](http://localhost:4000) by
-running:
-
-```sh
-npm start --prefix client
 ```
-
-You are not being assessed on React, and you don't have to update any of the
-React code; the frontend code is available just so that you can test out the
-behavior of your API in a realistic setting.
-
-Your job is to build out the Flask API to add the functionality described in the
-deliverables below.
 
 ---
 
@@ -108,14 +69,17 @@ python server/seed.py
 ---
 
 ## Validations
+Add validations to the `Student` model:
+
+- must have a `name`
 
 Add validations to the `Tutor` model:
 
-- must have a `name`, and a `field_of_study`
+- must have a `name`, and a `specialty`
 
-Add validations to the `Mission` model:
+Add validations to the `Session` model:
 
-- must have a `name`, a `scientist_id` and a `planet_id`
+- must have a `datetime`, a `student_id` and a `tutor_id`
 
 ## Routes
 
@@ -129,98 +93,92 @@ single field).
 NOTE: If you choose to implement a Flask-RESTful app, you need to add code to
 instantiate the `Api` class in server/app.py.
 
-### GET /scientists
+### GET /students
 
 Return JSON data in the format below. **Note**: you should return a JSON
 response in this format, without any additional nested data related to each
-scientist.
+student.
 
 ```json
 [
   {
     "id": 1,
-    "name": "Mel T. Valent",
-    "field_of_study": "xenobiology"
+    "name": "Mel T. Valent"
   },
   {
     "id": 2,
-    "name": "P. Legrange",
-    "field_of_study": "orbital mechanics"
+    "name": "P. Legrange"
   }
 ]
 ```
 
-### GET /scientists/<int:id>
+### GET /students/<int:id>
 
-If the `Scientist` exists, return JSON data in the format below. Make sure to
-include a list of missions for the scientist.
+If the `Student` exists, return JSON data in the format below. Make sure to
+include a list of tutoring sessions for the student.
 
 ```json
-"field_of_study": "Orbits",
+{
     "id": 1,
     "name": "Joseph Richard",
-    "missions": [
+    "sessions": [
         {
             "id": 1,
-            "name": "Explore Planet X.",
-            "planet": {
-                "distance_from_earth": 302613474,
-                "id": 8,
-                "name": "X",
-                "nearest_star": "Shiny Star"
+            "datetime": "07-21-2023 11:46",
+            "tutor": {
+                "name": "Melany",
+                "specialty": "math",
+                "id":8
             },
-            "planet_id": 8,
-            "scientist_id": 1
+            "tutor_id": 8,
+            "student_id": 1
         },
         {
-            "id": 10,
-            "name": "Explore Planet Y.",
-            "planet": {
-                "distance_from_earth": 1735242898,
-                "id": 14,
-                "name": "Y",
-                "nearest_star": "Dim Star"
+            "id": 2,
+            "datetime": "08-23-2023 11:45",
+            "tutor": {
+                "name": "Bob",
+                "specialty": "science",
+                "id":9
             },
-            "planet_id": 14,
-            "scientist_id": 1
+            "tutor_id": 9,
+            "student_id": 2
         }
     ]
 }
 ```
 
-If the `Scientist` does not exist, return the following JSON data, along with
+If the `Student` does not exist, return the following JSON data, along with
 the appropriate HTTP status code:
 
 ```json
 {
-  "error": "Scientist not found"
+  "error": "Student not found"
 }
 ```
 
-### POST /scientists
+### POST /students
 
-This route should create a new `Scientist`. It should accept an object with the
+This route should create a new `Student`. It should accept an object with the
 following properties in the body of the request:
 
 ```json
 {
-  "name": "Evan Horizon",
-  "field_of_study": "astronavigation"
+  "name": "Evan Horizon"
 }
 ```
 
-If the `Scientist` is created successfully, send back a response with the new
-`Scientist`:
+If the `Student` is created successfully, send back a response with the new
+`Student`:
 
 ```json
 {
   "id": 3,
-  "name": "Evan Horizon",
-  "field_of_study": "astronavigation"
+  "name": "Evan Horizon"
 }
 ```
 
-If the `Scientist` is **not** created successfully due to validation errors,
+If the `Student` is **not** created successfully due to validation errors,
 return the following JSON data, along with the appropriate HTTP status code:
 
 ```json
@@ -229,30 +187,28 @@ return the following JSON data, along with the appropriate HTTP status code:
 }
 ```
 
-### PATCH /scientists/:id
+### PATCH /students/:id
 
-This route should update an existing `Scientist`. It should accept an object
+This route should update an existing `Student`. It should accept an object
 with one or more of the following properties in the body of the request:
 
 ```json
 {
-  "name": "Bevan Horizon",
-  "field_of_study": "warp drive tech"
+  "name": "Bevan Horizon"
 }
 ```
 
-If the `Scientist` is updated successfully, send back a response with the
-updated `Scientist` and a 202 `accepted` status code:
+If the `Student` is updated successfully, send back a response with the
+updated `Student` and a `accepted` status code:
 
 ```json
 {
   "id": 2,
-  "name": "Bevan Horizon",
-  "field_of_study": "warp drive tech"
+  "name": "Bevan Horizon"
 }
 ```
 
-If the `Scientist` is **not** updated successfully, return the following JSON
+If the `Student` is **not** updated successfully, return the following JSON
 data, along with the appropriate HTTP status code:
 
 ```json
@@ -266,89 +222,85 @@ JSON:
 
 ```json
 {
-  "error": "Scientist not found"
+  "error": "Student not found"
 }
 ```
 
-### DELETE /scientists/<int:id>
+### DELETE /students/<int:id>
 
-If the `Scientist` exists, it should be removed from the database, along with
-any `Mission`s that are associated with it. If you did not set up your models to
-cascade deletes, you need to delete associated `Mission`s before the `Scientist`
+If the `Student` exists, it should be removed from the database, along with
+any `Session`s that are associated with it. If you did not set up your models to
+cascade deletes, you need to delete the associated `Session`s before the `Student`
 can be deleted.
 
-After deleting the `Scientist`, return an _empty_ response body, along with the
+After deleting the `Student`, return an _empty_ response body, along with the
 appropriate HTTP status code.
 
-If the `Scientist` does not exist, return the following JSON data, along with
+If the `Student` does not exist, return the following JSON data, along with
 the appropriate HTTP status code:
 
 ```json
 {
-  "error": "Scientist not found"
+  "error": "Student not found"
 }
 ```
 
-### GET /planets
+### GET /tutors
 
 Return JSON data in the format below. **Note**: you should return a JSON
 response in this format, without any additional nested data related to each
-planet.
+tutor.
 
 ```json
 [
   {
     "id": 1,
     "name": "TauCeti E",
-    "distance_from_earth": 1234567,
-    "nearest_star": "TauCeti"
+    "specialty": "math"
   },
   {
     "id": 2,
     "name": "Maxxor",
-    "distance_from_earth": 99887766,
-    "nearest_star": "Canus Minor"
+    "specialty":"science"
   }
 ]
 ```
 
-### POST /missions
+### POST /sessions
 
-This route should create a new `Missions`. It should accept an object with the
+This route should create a new tutoring `Session`. It should accept an object with the
 following properties in the body of the request:
 
 ```json
 {
-  "name": "Project Terraform",
-  "scientist_id": 1,
-  "planet_id": 2
+  "datetime": "08-01-2023 09:00",
+  "student_id": 1,
+  "tutor_id": 2
 }
 ```
 
-If the `Mission` is created successfully, send back a response about the new
-mission:
+If the tutoring `Session` is created successfully, send back a response about the new
+session:
 
 ```json
 {
   "id": 21,
-  "name": "Project Terraform",
-  "planet": {
-    "distance_from_earth": 9037395591,
-    "id": 2,
-    "name": "Planet X",
-    "nearest_star": "Krystal"
+  "datetime": "08-01-2023 09:00",
+  "student": {
+    "name":"Ann",
+    "id":2
   },
-  "planet_id": 2,
-  "scientist": {
-    "field_of_study": "Time travel.",
+  "student_id": 2,
+  "tutor": {
+    "specialty": "english",
     "id": 1,
     "name": "Jeremy Oconnor"
   },
-  "scientist_id": 1
+  "tutor_id": 1
 }
 ```
 
-If the `Mission` is **not** created successfully, return the following JSON
+If the `Session` is **not** created successfully, return the following JSON
 data, along with the appropriate HTTP status code:
 
 ```json
@@ -359,16 +311,4 @@ data, along with the appropriate HTTP status code:
 
 ---
 
-### (Optional FYI) React `useCallback` hook
-
-The `ScientistDetail` component in the React app uses the `useCallback` hook to
-memoize the function that fetches a scientist by id. The scientist detail is
-fetched when the component initially renders, and is fetched again after
-updating the scientist detail. `useCallback` caches the function to avoid
-recreating it .
-
-### Resources
-
-- [useCallback API](https://react.dev/reference/react/useCallback)
-- [Should you add useCallback everywhere?](https://react.dev/reference/react/useCallback#should-you-add-usecallback-everywhere)
 # python-p4-mock-challenge-tutoring_sessions

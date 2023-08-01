@@ -17,25 +17,23 @@ metadata = MetaData(naming_convention=convention)
 db = SQLAlchemy(metadata=metadata)
 
 
-class Planet(db.Model, SerializerMixin):
+class Student(db.Model, SerializerMixin):
     __tablename__ = 'planets'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
-    distance_from_earth = db.Column(db.Integer)
-    nearest_star = db.Column(db.String)
 
     # Add relationship
 
     # Add serialization rules
 
 
-class Scientist(db.Model, SerializerMixin):
+class Tutor(db.Model, SerializerMixin):
     __tablename__ = 'scientists'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
-    field_of_study = db.Column(db.String)
+    specialty = db.Column(db.String)
 
     # Add relationship
 
@@ -44,11 +42,11 @@ class Scientist(db.Model, SerializerMixin):
     # Add validation
 
 
-class Mission(db.Model, SerializerMixin):
+class Session(db.Model, SerializerMixin):
     __tablename__ = 'missions'
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String)
+    datetime = db.Column(db.DateTime)
 
     # Add relationships
 
