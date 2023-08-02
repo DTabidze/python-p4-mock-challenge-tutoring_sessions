@@ -75,7 +75,7 @@ function SessionForm(){
                     <input type="submit" value="submit" />
                 </div>
             </form>
-            {newSession ? <p>Session Details: {newSession.tutor.name} {newSession.datetime}</p>: null}
+            {newSession ? <p><strong>Session Details</strong>: Tutor: {newSession.tutor.name} Datetime: {newSession.datetime}</p>: null}
         </>
     )
 }
