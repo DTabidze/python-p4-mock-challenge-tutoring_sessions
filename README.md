@@ -337,16 +337,6 @@ data, along with the appropriate HTTP status code:
 }
 ```
 
----
-
-### (Optional FYI) React `useCallback` hook
-
-The `StudentDetail` component in the React app uses the `useCallback` hook to
-memoize the function that fetches a student by id. The student detail is
-fetched when the component initially renders, and is fetched again after
-updating the student detail. `useCallback` caches the function to avoid
-recreating it .
-
 ### Resources
 
 - [useCallback API](https://react.dev/reference/react/useCallback)
