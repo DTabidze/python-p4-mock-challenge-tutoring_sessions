@@ -25,7 +25,9 @@ class Student(db.Model, SerializerMixin):
     name = db.Column(db.String)
 
     # Add relationships
-    sessions = db.relationship("Session", back_populates="student")
+    sessions = db.relationship(
+        "Session", cascade="all,delete", back_populates="student"
+    )
     # Add serialization rules
     serialize_rules = ("-sessions.student",)
 

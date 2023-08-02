@@ -6,6 +6,7 @@ from flask_migrate import Migrate
 from flask import Flask, make_response, jsonify, request
 from sqlalchemy.exc import IntegrityError
 import datetime
+from sqlalchemy.sql import text
 
 import os
 
@@ -82,6 +83,7 @@ def add_session():
     if request.method == "POST":
         data = request.json
         session = Session()
+        db.session.execute(text("PRAGMA foreign_keys=on;"))
         try:
             for attr in data:
                 if attr == "datetime":
