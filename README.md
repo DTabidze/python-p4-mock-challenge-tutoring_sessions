@@ -337,8 +337,4 @@ data, along with the appropriate HTTP status code:
 }
 ```
 
-### Resources
-
-- [useCallback API](https://react.dev/reference/react/useCallback)
-- [Should you add useCallback everywhere?](https://react.dev/reference/react/useCallback#should-you-add-usecallback-everywhere)
 # python-p4-mock-challenge-tutoring_sessions
