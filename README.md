@@ -337,4 +337,9 @@ data, along with the appropriate HTTP status code:
 }
 ```
 
+----
+## Resources
+1. Flask Documentation: https://flask.palletsprojects.com/en/2.3.x/
+2. SQLAlchemy Documentation: https://www.sqlalchemy.org/
+
 # python-p4-mock-challenge-tutoring_sessions
