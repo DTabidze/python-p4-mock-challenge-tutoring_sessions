@@ -15,7 +15,7 @@ function Header(){
                 </li>
                 <li>
                     <Link to="sessions/add">
-                        Add Student
+                        Schedule Tutoring Session
                     </Link>
                 </li>
             </ul>

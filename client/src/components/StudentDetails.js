@@ -18,15 +18,20 @@ function StudentDetails(){
         fetch(URL)
         .then(res=>{
             if(res.ok) return res.json()
-            navigate("/")
+            navigate("/students")
         })
         .then(student=>setStudent(student))
     }
 
     return(
-        <article className="student-details-div">
-            <Student student={student} />
-        </article>
+        <>
+            <h1>
+                Student Info
+            </h1>
+            <article className="student-details-div">
+                <Student student={student} setStudent={setStudent} />
+            </article>
+        </>
     )
 
 }

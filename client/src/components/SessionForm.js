@@ -3,14 +3,19 @@ import {useState,useEffect} from "react"
 function SessionForm(){
 
     const [tutors,setTutors]=useState([])
-    const [data,setData]=useState({})
+    const selectedIdx=0
+    const [data,setData]=useState({"tutor_id":0})
     const [newSession,setNewSession]=useState(null)
+    const [errorMsgs,setErrorMsgs]=useState([])
 
     function loadTutors(){
         const URL="/tutors"
         fetch(URL)
         .then(res=>res.json())
-        .then(tutors=>setTutors(tutors))
+        .then(tutors=>{
+            setTutors(tutors)
+            setData({...data,"tutor_id":tutors.length>0 ? tutors[selectedIdx].id :0})
+        })
     }
 
     useEffect(()=>{
@@ -18,7 +23,7 @@ function SessionForm(){
     },[])
 
     function handleChange(e){
-        if(e.target.value==""){
+        if(e.target.name=="student_id" && e.target.value==""){
             e.target.value=0
         }
         setData({...data,[e.target.name]:parseInt(e.target.value)})
@@ -34,7 +39,16 @@ function SessionForm(){
             },
             body:JSON.stringify(data)
         })
-        .then(res=>res.json())
+        .then(res=>{
+            if(res.ok){
+                setErrorMsgs([])
+                return res.json()
+            }
+            else{
+                
+                res.json().then(errorMsgs=>setErrorMsgs(errorMsgs.errors))
+            }
+        })
         .then(session=>setNewSession(session))
     }
 
@@ -42,18 +56,19 @@ function SessionForm(){
     return(
         <>
             <form className="add-session-form" onSubmit={handleSubmit}>
+                {errorMsgs.map(errorMsg=><p className="errors">{errorMsg}</p>)}
                 <div>
-                    <label htmlFor="studentId">
+                    <label htmlFor="student_id">
                         Student ID:
                     </label>
-                    <input onChange={handleChange} type="text" name="studentId" />
+                    <input onChange={handleChange} type="text" name="student_id" value={data.student_id} />
                 </div>
                 <div>
-                    <label htmlFor="tutor">
+                    <label htmlFor="tutor_id">
                         Tutor
                     </label>
-                    <select name="tutorId" onChange={handleChange}>
-                        {tutors.map(tutor=><option value={tutor.id}>tutor.name</option>)}
+                    <select name="tutor_id" onChange={handleChange}>
+                        {tutors.map((tutor,i)=><option value={tutor.id} key={tutor.id} selected={i==selectedIdx ? "selected": ""}>{tutor.name}</option>)}
                     </select>
                 </div>
                 <div>

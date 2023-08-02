@@ -18,41 +18,40 @@ db = SQLAlchemy(metadata=metadata)
 
 
 class Student(db.Model, SerializerMixin):
-    __tablename__ = 'planets'
+    __tablename__ = 'students'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
-
-    # Add relationship
-
-    # Add serialization rules
-
-
-class Tutor(db.Model, SerializerMixin):
-    __tablename__ = 'scientists'
-
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String)
-    specialty = db.Column(db.String)
-
-    # Add relationship
-
-    # Add serialization rules
-
-    # Add validation
-
-
-class Session(db.Model, SerializerMixin):
-    __tablename__ = 'missions'
-
-    id = db.Column(db.Integer, primary_key=True)
-    datetime = db.Column(db.DateTime)
 
     # Add relationships
 
     # Add serialization rules
 
-    # Add validation
+    #add validations
 
+class Tutor(db.Model, SerializerMixin):
+    __tablename__ = 'tutors'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
+    specialty = db.Column(db.String)
+
+    # Add relationships
+    
+    # Add serialization rules
+    
+    # Add validations
+
+class Session(db.Model, SerializerMixin):
+    __tablename__ = 'sessions'
+
+    id = db.Column(db.Integer, primary_key=True)
+    datetime = db.Column(db.DateTime)
+
+    # Add relationships
+   
+    # Add serialization rules
+    
+    # Add validations
 
 # add any models you may need.

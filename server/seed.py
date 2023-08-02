@@ -41,7 +41,6 @@ def create_tutoring_sessions(students, tutors):
     sessions = []
     for _ in range(20):
         s = Session(
-            name=rc(specialties),
             student_id=rc(students).id,
             tutor_id=rc(tutors).id
         )

@@ -1,22 +1,22 @@
-function Student({student:{id,name,sessions},setStudents}){
+import {Link,useNavigate} from "react-router-dom"
+
+function Student({student:{id,name,sessions},setStudent}){
     
+    const navigate=useNavigate()
+
     function handleSubmit(e){
-        e.preventDefault()
-        const URL=`/students/${id}`
-        fetch(URL,{
-            method:"PATCH",
-            headers:{
-                "Content-Type":"application/json"
-            },
-            body:JSON.stringify({[e.target.name]:e.target.value})
-        })
-        .then(res=>res.json())
-        .then(newStudent=>setStudents(students=>students.map(student=>{
-            if(student.id==newStudent.id){
-                student.name=newStudent.name
-            }
-            return student
-        })))
+            e.preventDefault()
+            console.log(e.target.newName.value)
+            const URL=`/students/${id}`
+            fetch(URL,{
+                method:"PATCH",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify({"name":e.target.newName.value})
+            })
+            .then(res=>res.json())
+            .then(newStudent=>setStudent(newStudent))
     }
 
     function handleDelete(){
@@ -26,7 +26,7 @@ function Student({student:{id,name,sessions},setStudents}){
         })
         .then(res=>{
             if(res.ok){
-                setStudents(students=>students.filter(student=>student.id!=id))
+                navigate("/students")
             }
             else{
                 alert("Student deletion failed")
@@ -35,28 +35,44 @@ function Student({student:{id,name,sessions},setStudents}){
     }
     const editForm=<form onSubmit={handleSubmit}>
     <div>
-        <label for="name">
+        <label htmlFor="name">
             Name
         </label>
-        <input type="text" name="name" />
+        <input type="text" name="newName" />
     </div>
     <div>
-        <input type="submit" value="add name" />
+        <input type="submit" value="update name" />
     </div>
 </form>
-    const deleteBtn=<button onClick={handleDelete}>x</button>
+    const deleteBtn=<button className="delete-btn" onClick={handleDelete}>delete</button>
+    let sessions_info
+    if(sessions){
+        if(sessions.length>0){
+            sessions_info=sessions.map(session=><p>Tutor Name: {session.tutor.name} Date Time: {session.datetime}</p>)
+        }
+        else{
+            sessions_info=<p>no tutoring sessions scheduled</p>
+        }  
+    }
+
     return(
-        <div className="student-div">
-            <p>
-                id : {id}
-            </p>
-            <p>
-                name: {name}
-            </p>
-            {sessions ? <><h2>Tutoring Sessions</h2>{sessions.map(session=><p>Tutor Name: {session.tutor.name}</p>)}</> : null}
-            {sessions ? editForm : null}
-            {sessions ? deleteBtn : null}
-        </div>
+        
+            <div className="student-div">
+                <Link to={`/students/${id}`}>
+                    <p>
+                        id : {id}
+                    </p>
+                    <p>
+                        name: {name}
+                    </p>
+                    {sessions ? <h2>Tutoring Sessions</h2>: null}
+                    {sessions_info}
+                </Link>
+                {sessions ? editForm : null}
+                {sessions ? deleteBtn : null}
+            </div>
+        
+            
     )
 }
 
